@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+from google.genai import types
 
 
 def run_python_file(working_directory, file_path, args=[]):
@@ -34,3 +35,31 @@ def run_python_file(working_directory, file_path, args=[]):
   except Exception as e:
     return f"Error: executing Python file: {e}"
   
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description=(
+        "Executes a Python script inside the permitted working directory and returns its "
+        "STDOUT, STDERR, and exit code information."
+    ),
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description=(
+                    "Path to the Python (.py) file, relative to the working directory. "
+                    "Must be located inside the permitted working directory."
+                ),
+            ),
+            "args": types.Schema(
+                type=types.Type.ARRAY,
+                items=types.Schema(type=types.Type.STRING),
+                description=(
+                    "Optional list of command-line arguments to pass to the script. "
+                    "Defaults to an empty list."
+                ),
+            ),
+        },
+        required=["file_path"],
+    ),
+)
