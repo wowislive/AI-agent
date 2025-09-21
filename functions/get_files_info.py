@@ -22,7 +22,7 @@ def get_files_info(working_directory, directory="."):
     for c in content:
       p = os.path.join(target_abs, c)
       size = os.path.getsize(p)
-      is_file = os.path.isfile(p)
+      is_file = os.path.isdir(p)
       result += f"- {c}: file_size={size} bytes, is_dir={is_file}" + "\n"
     
     return result
